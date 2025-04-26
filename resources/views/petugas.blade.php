@@ -193,11 +193,31 @@
 
                     <!-- Content Row -->
                     <div class="row">
-                        <h1>DATAR PETUGAS</h1>
-                    </div> 
-                    <!-- Content Row -->
+                        <h1>DAFTAR PETUGAS</h1>
+                </div> 
+                <div>
                     <img  src="{{ asset('img/petugas.png') }}">
+                    <!-- Content Row -->
+                    <table border="1" cellpadding="10">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Jabatan</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($petugas as $p)
+                                <tr>
+                                    <td>{{ $p->name }}</td>
+                                    <td>{{ $p->jabatan }}</td>
+                                    <td>{{ $p->email }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+                     
                 <!-- /.container-fluid -->
 
             </div>

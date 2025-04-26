@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Admin',
+            'jabatan' => 'admin',
             'email' => 'admin@gmail.com',
-            'nik' => '1234567890123456', // NIK 16 digit
             'password' => Hash::make('123'), // Ganti dengan password yang diinginkan
             'created_at' => now(),
             'updated_at' => now(),
