@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PetugasController;
+
 
 // Route untuk halaman login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -32,6 +34,9 @@ Route::get('/register', function () {
 Route::get('/petugas', function () {
     return view('petugas');
 });
+
+
+Route::get('/petugas', [PetugasController::class, 'index']);
 
 
 

@@ -18,12 +18,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'nik' => 'required',
-            'email' => 'required|email',
+            'name' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('nik', 'email', 'password');
+        $credentials = $request->only('name', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -31,7 +30,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'name' => 'nama atau password salah.',
         ])->withInput();
     }
 

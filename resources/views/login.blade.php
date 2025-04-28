@@ -60,18 +60,10 @@
                                     <form class="user" method="POST" action="{{ route('login.post') }}">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="nik" name="nik" class="form-control form-control-user"
+                                            <input type="name" name="name" class="form-control form-control-user"
                                                 id="exampleInputnik" aria-describedby="nikHelp"
-                                                placeholder="Enter NIK..." value="{{ old('nik') }}">
-                                            @error('nik')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="email" name="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address..." value="{{ old('email') }}">
-                                            @error('email')
+                                                placeholder="Enter USERNAME" value="{{ old('name') }}">
+                                            @error('name')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
