@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\WargaController;
 
 
 // Route untuk halaman login
@@ -20,6 +21,7 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 });
+
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -44,6 +46,23 @@ Route::get('/petugas', [PetugasController::class, 'index']);
 Route::get('/home', function () {
     return view('home');
 })->middleware('auth');
+
+
+// warga
+Route::get('/warga/login', [WargaController::class, 'showLoginForm'])->name('warga.login');
+Route::post('/warga/login', [WargaController::class, 'login'])->name('warga.login.submit');
+Route::get('/warga/dashboard', [WargaController::class, 'dashboard'])->name('warga.dashboard');
+Route::get('/warga/profil', [WargaController::class, 'profil'])->name('warga.profil');
+Route::post('/warga/logout', function () {
+    session()->forget('warga_id');
+    return redirect()->route('warga.login');
+})->name('warga.logout');
+
+Route::post('/warga/register', [WargaController::class, 'store'])->name('warga.store');
+
+Route::get('/warga/register', function () {
+    return view('warga.register');
+});
 
 /*
 
