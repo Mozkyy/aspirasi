@@ -37,6 +37,7 @@ Route::get('/petugas', function () {
     return view('petugas');
 });
 
+Route::get('/daftarwarga', [WargaController::class, 'index'])->name('daftarwarga');
 
 Route::get('/petugas', [PetugasController::class, 'index']);
 
@@ -63,6 +64,13 @@ Route::post('/warga/register', [WargaController::class, 'store'])->name('warga.s
 Route::get('/warga/register', function () {
     return view('warga.register');
 });
+
+// Tampilkan form update
+Route::get('/warga/edit', [WargaController::class, 'edit'])->name('warga.edit');
+
+// Proses update
+Route::post('/warga/update/{id}', [WargaController::class, 'update'])->name('warga.update');
+
 
 /*
 

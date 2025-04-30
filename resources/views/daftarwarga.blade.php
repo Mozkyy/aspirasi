@@ -201,7 +201,42 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <h1>SELAMAT DATANG DI DASHBOARD!</h1>
+                        <h1>DAFTAR WARGA </h1>
+
+                    </div>
+
+                    <div>
+                        <table border="1" cellpadding="10">
+                            <thead>
+                                <tr>
+                                    <th>NIK</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>gambar</th>
+                                    <th>aksi </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($show as $s)
+                                    <tr>
+                                        <td>{{ $s->nik }}</td>
+                                        <td>{{ $s->nama }}</td>
+                                        <td>{{ $s->email }}</td>
+                                        <td>
+                                        @if($s->gambar)
+                                            <img src="{{ asset('storage/' . $s->gambar) }}" width="80" height="80" alt="Gambar Warga">
+                                        @else
+                                            Tidak Ada Gambar
+                                        @endif
+                                        </td>
+                                        <td> 
+                                            <a href=""> Hapus data </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                       
                     <!-- Content Row -->
                 </div>

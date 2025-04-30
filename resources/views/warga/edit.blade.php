@@ -3,7 +3,7 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <title>
-   Register Page
+   UPDATE PAGE
   </title>
   <script src="https://cdn.tailwindcss.com">
   </script>
@@ -38,21 +38,8 @@
    <!-- Left text block -->
    <section class="flex flex-col jsutify-left max-w-l flex-2">
     <h1 class="text-[#bf3b2a] font-extrabold text-4xl sm:text-5xl leading-tight mb-6">
-     Silahkan Buat Akun
-     <br/>
-     Terlebih Dahulu
+     UPDATE AKUN
     </h1>
-    <p class="text-[#3a3a3a] text-base sm:text-lg max-w-md mb-16">
-     Sebelum menyampaikan Aspirasi, Anda diharuskan untuk membuat akun dahulu
-    </p>
-    <p class="text-[#3a3a3a] text-base mb-4">
-     Sudah punya Akun?
-    </p>
-    <a href="/warga/login">
-        <button class="bg-[#bf3b2a] text-white font-extrabold text-lg sm:text-xl px-8 py-3 rounded shadow-md hover:shadow-lg transition-shadow w-36" type="button">
-            LOGIN
-        </button>
-    </a>
    </section>
    <!-- Center image -->
    <section class="flex justify-center flex-2 max-w-lg">
@@ -60,7 +47,7 @@
    </section>
    <!-- Right form -->
    <section class="flex flex-col flex-2">
-    <form action="{{ route('warga.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+    <form action="{{ route('warga.update', $warga->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
         @csrf
     
         {{-- Tampilkan error validasi --}}
@@ -75,35 +62,33 @@
             </div>
         @endif
     
-        {{-- NIK --}}
-        <input name="nik" value="{{ old('nik') }}" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Masukkan NIK Anda" type="text" maxlength="16" required/>
-    
         {{-- Nama --}}
-        <input name="nama" value="{{ old('nama') }}" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Masukkan Nama Anda" type="text" required/>
+        <input name="nama" value="{{ old('nama', $warga->nama) }}" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Masukkan Nama Anda" type="text" required/>
     
         {{-- Email --}}
-        <input name="email" value="{{ old('email') }}" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Masukkan Email Anda" type="email" required/>
+        <input name="email" value="{{ old('email', $warga->email) }}" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Masukkan Email Anda" type="email" required/>
     
-        {{-- Password --}}
-        <input name="password" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Password" type="password" required minlength="6"/>
+        {{-- Password (kosongkan jika tidak ingin mengganti) --}}
+        <input name="password" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Password Baru (biarkan kosong jika tidak diubah)" type="password"/>
     
         {{-- Konfirmasi Password --}}
-        <input name="password_confirmation" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Konfirmasi Password" type="password" required minlength="6"/>
+        <input name="password_confirmation" class="shadow-md rounded-md px-4 py-3 text-sm sm:text-base placeholder-[#999999] focus:outline-none" placeholder="Konfirmasi Password Baru" type="password"/>
     
         {{-- Upload Gambar --}}
         <input name="gambar" type="file" class="mt-2 text-sm text-gray-600"/>
-    
-        {{-- Ingatkan Saya (opsional checkbox) --}}
-        <label class="flex items-center gap-2 mt-2 select-none">
-            <input class="w-5 h-5" type="checkbox"/>
-            <span class="font-extrabold text-sm text-[#3a3a3a]">Ingatkan Saya</span>
-        </label>
+        @if ($warga->gambar)
+            <div class="mt-2">
+                <p class="text-sm text-gray-700">Gambar saat ini:</p>
+                <img src="{{ asset('storage/' . $warga->gambar) }}" width="100" class="mt-1 rounded">
+            </div>
+        @endif
     
         {{-- Submit Button --}}
         <button class="bg-[#bf3b2a] text-white font-extrabold text-lg sm:text-xl px-8 py-3 rounded shadow-md hover:shadow-lg transition-shadow mt-6" type="submit">
-            Register
+            Simpan Perubahan
         </button>
     </form>
+    
    </section>
   </main>
   <!-- Footer -->
@@ -135,3 +120,48 @@
   </footer>
  </body>
 </html>
+
+
+<!--
+
+<form action="{{ route('warga.update', $warga->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+    
+            <div class="form-group">
+                <label>Nama</label>
+                <input type="text" name="nama" value="{{ old('nama', $warga->nama) }}" class="form-control">
+                @error('nama') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+    
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ old('email', $warga->email) }}" class="form-control">
+                @error('email') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+    
+            <div class="form-group">
+                <label>Password (biarkan kosong jika tidak ingin ganti)</label>
+                <input type="password" name="password" class="form-control">
+                @error('password') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+    
+            <div class="form-group">
+                <label>Konfirmasi Password</label>
+                <input type="password" name="password_confirmation" class="form-control">
+            </div>
+    
+            <div class="form-group">
+                <label>Gambar Profil</label>
+                <input type="file" name="gambar" class="form-control-file">
+                @if($warga->gambar)
+                    <p>Gambar saat ini:</p>
+                    <img src="{{ asset('storage/' . $warga->gambar) }}" width="100">
+                @endif
+                @error('gambar') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+
+
+-->

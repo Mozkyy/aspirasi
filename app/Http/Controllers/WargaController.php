@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 use App\Models\Warga;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage; // Tambahkan ini
 class WargaController extends Controller
 {
     public function index()
     {
         $show = Warga::all();
+        return view('daftarwarga', compact('show'));
     }
 
     public function create()
@@ -51,14 +52,44 @@ class WargaController extends Controller
         // Tampilkan detail warga
     }
 
-    public function edit($id)
+    public function edit()
     {
-        // Form edit warga
+        $warga = Warga::findOrFail(session('warga_id'));
+    return view('warga.edit', compact('warga'));
     }
 
     public function update(Request $request, $id)
     {
-        // Update data warga
+        $warga = Warga::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:warga,email,' . $id,
+            'password' => 'nullable|min:6|confirmed',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama
+            if ($warga->gambar) {
+                Storage::disk('public')->delete($warga->gambar);
+            }
+            // Upload gambar baru
+            $gambarPath = $request->file('gambar')->store('warga_gambar', 'public');
+            $warga->gambar = $gambarPath;
+        }
+
+        $warga->nama = $request->nama;
+        $warga->email = $request->email;
+
+        if ($request->filled('password'))
+        {
+            $warga->password = $request->password;   
+        }
+
+        $warga->save();
+
+        return redirect()->route('warga.dashboard')->with('success', 'Data warga berhasil diperbarui.');
     }
 
     public function destroy($id)
