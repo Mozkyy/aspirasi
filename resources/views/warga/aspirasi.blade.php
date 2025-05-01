@@ -98,7 +98,7 @@
   <!-- Main content -->
   <main class="max-w-7xl mx-auto px-4 py-6">
    <h1 class="inline-block bg-[#c63c28] text-white font-bold text-lg sm:text-xl px-5 py-2 rounded select-none">
-    PROFILE USER
+    DAFTAR ASPIRASI MU
    </h1>
    <div class="overflow-x-auto mt-4">
         <div>
@@ -106,36 +106,76 @@
                 <table border="1" cellpadding="10">
                         <thead>
                             <tr>
-                                <th>NIK</th>
                                 <th>Nama</th>
-                                <th>Email</th>
-                                <th>gambar</th>
-                                <th>aksi </th>
+                                <th>Telepon</th>
+                                <th>RT</th>
+                                <th>RW</th>
+                                <th>Kategori</th>
+                                <th>Isi</th>
+                                <th>Lampiran</th>
+                                <th>Status </th>
+                                <th>keterangan</th>
+                                <th>Tanggal Dikirim </th>
+                                <th>Tanggal Direspon </th>
+                                <th>AKSI </th>
                             </tr>
                         </thead>
                         <tbody>
-                             <tr>
-                                    <td>{{ $warga->nik }}</td>
-                                    <td>{{ $warga->nama }}</td>
-                                    <td>{{ $warga->email }}</td>
-                                    <td>
-                                    @if($warga->gambar)
-                                        <img src="{{ asset('storage/' . $warga->gambar) }}" width="80" height="80" alt="Gambar Warga">
-                                    @else
-                                        Tidak Ada Gambar
-                                    @endif
-                                    </td>
-                                    <td> 
-                                        <a href="/warga/edit" class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded hover:bg-blue-700 transition-colors">
-                                            Update Data
-                                        </a>
-                                    </td>
-                                </tr>
+                            @foreach($show as $s)
+                            <tr>
+                                <td>{{ $s->warga->nama }}</td>
+                                <td>{{ $s->telpon }}</td>
+                                <td>{{ $s->rt }}</td>
+                                <td>{{ $s->rw }}</td>
+                                <td>{{ $s->kategori }}</td>
+                                <td>{{ $s->isi }}</td>
+                                <td>
+                                @if($s->gambar)
+                                    <img src="{{ asset('storage/' . $s->gambar) }}" width="80" height="80" alt="Lampiran">
+                                @else
+                                    Tidak Ada Gambar
+                                @endif
+                                </td>
+                                <td>
+                                    @if($s->status_proses === 'diajukan')
+                                   <button class="bg-orange-600 hover:bg-orange-700 text-white text-xs sm:text-sm font-semibold rounded-md px-3 py-1 flex items-center gap-1 mx-auto" type="button">
+                                       <i class="fas fa-times-circle"></i>
+                                       Belum Tertangani
+                                   </button>
+                                   @elseif($s->status_proses === 'diterima_admin' || $s->status_proses === 'diterima_kasi' || $s->status_proses === 'diterima_lurah')
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-md px-3 py-1 flex items-center gap-1 mx-auto" type="button">
+                                        <i class="fas fa-sync-alt"></i>
+                                        Proses
+                                </button>
+                               @elseif($s->status_proses === 'selesai')
+                                <button class="bg-green-700 hover:bg-green-800 text-white text-xs sm:text-sm font-semibold rounded-md px-3 py-1 flex items-center gap-1 mx-auto" type="button">
+                                    <i class="fas fa-check-circle">
+                                    </i>
+                                    Selesai
+                                </button>
+                               @else
+                                   <span>Status Tidak Dikenal</span>
+                               @endif
+                                </td>
+                                <td>{{ $s->status_proses }}</td>
+                                <td>{{ $s->created_at }}</td>
+                                <td>{{ $s->tanggal_respon }}</td>
+                                <td>
+                                    <form action="{{ route('aspirasi.destroy', $s->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus aspirasi ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" style="background: none; border: none; padding: 0;">
+                                            <img src="{{ asset('img/hapus.png') }}" alt="delete" height="59" width="50">
+                                        </button>
+                                    </form>
+                                </td>      
+                            </tr>
+                        @endforeach
                             </tbody>
                 </table>
-            </div>
+             </div>
         </div>
-   </div>
+    </div>
   </main>
   <!-- Footer with logos -->
   <footer class="bg-[#c43c2f] text-white">
@@ -169,30 +209,5 @@
 
 
 <!-- 
-    <div>
-            <table border="1" cellpadding="10">
-                    <thead>
-                        <tr>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>gambar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                         <tr>
-                                <td>{{ $warga->nik }}</td>
-                                <td>{{ $warga->nama }}</td>
-                                <td>{{ $warga->email }}</td>
-                                <td>
-                                @if($warga->gambar)
-                                    <img src="{{ asset('storage/' . $warga->gambar) }}" width="80" height="80" alt="Gambar Warga">
-                                @else
-                                    Tidak Ada Gambar
-                                @endif
-                                </td>
-                            </tr>
-                    </tbody
-            </table>
-    </div>
+
 -->

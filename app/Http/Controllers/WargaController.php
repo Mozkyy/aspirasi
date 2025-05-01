@@ -95,6 +95,16 @@ class WargaController extends Controller
     public function destroy($id)
     {
         // Hapus warga
+        $warga = Warga::findOrFail($id);
+
+        // Hapus gambar jika ada
+        if ($warga->gambar) {
+            Storage::disk('public')->delete($warga->gambar);
+        }
+    
+        $warga->delete();
+    
+        return redirect()->route('daftarwarga')->with('success', 'Warga berhasil dihapus.');
     }
 
     public function showLoginForm()
@@ -139,4 +149,12 @@ class WargaController extends Controller
 
         return view('warga.profil', compact('warga'));
     }
+
+    public function logout(Request $request)
+    {
+        $request->session()->forget('warga_id');
+        $request->session()->regenerateToken();
+        return redirect()->route('warga.login');
+    }
+
 }

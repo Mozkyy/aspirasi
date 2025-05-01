@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\AspirasiController;
+
 
 
 // Route untuk halaman login
@@ -25,23 +27,16 @@ Route::get('/login', function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/aspirasi', function () {
-    return view('aspirasi');
-});
+
 
 Route::get('/register', function () {
     return view('register');
 });
 
-Route::get('/petugas', function () {
-    return view('petugas');
-});
-
 Route::get('/daftarwarga', [WargaController::class, 'index'])->name('daftarwarga');
+Route::get('/aspirasi', [AspirasiController::class, 'index'])->name('daftaraspirasi');
 
 Route::get('/petugas', [PetugasController::class, 'index']);
-
-
 
 // Route untuk halaman setelah login
 Route::get('/home', function () {
@@ -54,10 +49,7 @@ Route::get('/warga/login', [WargaController::class, 'showLoginForm'])->name('war
 Route::post('/warga/login', [WargaController::class, 'login'])->name('warga.login.submit');
 Route::get('/warga/dashboard', [WargaController::class, 'dashboard'])->name('warga.dashboard');
 Route::get('/warga/profil', [WargaController::class, 'profil'])->name('warga.profil');
-Route::post('/warga/logout', function () {
-    session()->forget('warga_id');
-    return redirect()->route('warga.login');
-})->name('warga.logout');
+Route::post('/warga/logout', [WargaController::class, 'logout'])->name('warga.logout');
 
 Route::post('/warga/register', [WargaController::class, 'store'])->name('warga.store');
 
@@ -67,9 +59,25 @@ Route::get('/warga/register', function () {
 
 // Tampilkan form update
 Route::get('/warga/edit', [WargaController::class, 'edit'])->name('warga.edit');
-
 // Proses update
 Route::post('/warga/update/{id}', [WargaController::class, 'update'])->name('warga.update');
+
+Route::get('/warga/aspirasi', [AspirasiController::class, 'indexWarga'])->name('warga.aspirasi');
+
+Route::delete('/warga/{id}', [WargaController::class, 'destroy'])->name('warga.destroy');
+
+
+// aspirasi
+    // Form input aspirasi
+    Route::get('/warga/aspirasi/create', [AspirasiController::class, 'create'])->name('aspirasi.create');
+
+    // Menyimpan data aspirasi
+    Route::post('warga/aspirasi/store', [AspirasiController::class, 'store'])->name('aspirasi.store');
+
+    Route::delete('/aspirasi/{id}', [AspirasiController::class, 'destroy'])->name('aspirasi.destroy');
+
+    Route::post('/aspirasi/{id}/terima', [AspirasiController::class, 'terima'])->name('aspirasi.terima');
+    Route::post('/aspirasi/{id}/selesai', [AspirasiController::class, 'selesai'])->name('aspirasi.selesai');
 
 
 /*

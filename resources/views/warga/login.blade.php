@@ -1,108 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Login Aspirasi
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   /* Custom scrollbar removal for checkbox */
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+    input[type="checkbox"] {
+      accent-color: #c43c2f;
+    }
+  </style>
+ </head>
+ <body class="bg-gradient-to-r from-[#FFFFFF] via-[#f9d4d0] to-[#FFFFFF] flex flex-col min-h-screen">
+  <!-- Top bar -->
+  <div class="bg-[#c43c2f] text-white text-xs sm:text-sm flex items-center gap-4 px-4 sm:px-6 py-2">
+   <div class="flex items-center gap-2">
+    <i class="fas fa-phone-alt text-[10px] sm:text-xs">
+    </i>
+    <span>
+     (024) 8312240
+    </span>
+   </div>
+   <div class="flex items-center gap-2">
+    <i class="fas fa-envelope text-[10px] sm:text-xs">
+    </i>
+    <span>
+     kelurahanpeterongan18@gmail.com
+    </span>
+   </div>
+  </div>
+  <!-- Main content -->
+  <main class="flex-grow flex flex-col sm:flex-row items-center justify-center px-6 sm:px-12 py-12 sm:py-20 gap-10 sm:gap-20 bg-gradient-to-r from-[#f7e6e3] via-[#f7e0dc] to-white">
+   <!-- Left text block -->
+   <section class="flex flex-col justify-center max-w-md sm:max-w-sm lg:max-w-md">
+    <h1 class="text-[#c43c2f] font-extrabold text-4xl sm:text-5xl leading-tight mb-4">
+     Selamat Datang di
+     <br/>
+     Aspirasi
+    </h1>
+    <p class="text-black text-base sm:text-lg mb-16 max-w-xs">
+     Silahkan login untuk menyampaikan
+     <br/>
+     Aspirasi Anda
+    </p>
+    <p class="text-black text-base mb-3 max-w-xs">
+     Belum punya Akun?
+    </p>
+    <button class="bg-[#c43c2f] text-white font-extrabold text-sm sm:text-base px-6 py-2 rounded shadow-md hover:shadow-lg w-max" type="button">
+     <a href="/warga/register"> REGISTER</a>
+    </button>
+   </section>
+   <!-- Center image -->
+   <section class="flex justify-center items-center max-w-xs sm:max-w-sm lg:max-w-md">
+    <img alt="gambar ilustrasi orang naik roket" class="w-full h-auto" height="500" src="{{ asset('img/roket.png') }}" width="300"/>
+   </section>
+<!-- Right login form -->
+<section class="flex flex-col max-w-xs sm:max-w-sm w-full sm:w-auto gap-4">
+  <form method="POST" action="{{ route('warga.login.submit') }}" class="flex flex-col gap-4">
+    @csrf
+    <input name="nik" value="{{ old('nik') }}" class="px-4 py-3 rounded-lg shadow-md border border-transparent focus:outline-none focus:ring-2 focus:ring-[#c43c2f] text-xs sm:text-sm" placeholder="Masukkan NIK Anda"
+      type="text"
+    />
+    @error('nik')
+      <small class="text-red-500 text-xs">{{ $message }}</small>
+    @enderror
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <input
+      name="password" class="px-4 py-3 rounded-lg shadow-md border border-transparent focus:outline-none focus:ring-2 focus:ring-[#c43c2f] text-xs sm:text-sm" placeholder="Password"
+      type="password"
+    />
+    @error('password')
+      <small class="text-red-500 text-xs">{{ $message }}</small>
+    @enderror
 
-    <title>Login</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('template/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
-    
-    <!-- Custom background style -->
-    <style>
-        .bg-custom {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                        url('{{ asset("img/peterongan.jpg") }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-        
-        .bg-blur {
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        
-        .bg-login-image {
-            background: url('{{ asset("img/roket.png") }}');
-            background-position: center;
-            background-size: 60% auto;
-            background-repeat: no-repeat;
-        }
-    </style>
-</head>
-
-<body class="bg-custom">
-    <div class="container">
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5 bg-blur" style="background-color: rgba(255, 255, 255, 0.85);">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Login USER</h1>
-                                    </div>
-                                    <form class="us" method="POST" action="{{ route('warga.login.submit') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="text" name="nik" class="form-control form-control-us"
-                                                id="exampleInputnik" aria-describedby="nikHelp"
-                                                placeholder="Enter NIK" value="{{ old('nik') }}">
-                                            @error('nik')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
-                                            @error('password')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </button>
-                                    </form>
-                                    
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="/warga/register">Create an Account!</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="flex justify-between items-center text-xs sm:text-sm font-semibold text-black">
+      <label class="flex items-center gap-2 cursor-pointer select-none">
+        <input class="w-4 h-4" type="checkbox" />
+        Ingatkan Saya
+      </label>
+      <a href="#" class="text-xs sm:text-sm font-semibold text-[#000000] hover:underline">
+        Lupa Password?
+      </a>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('template/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <button
+      type="submit"
+      class="bg-[#c43c2f] text-white font-extrabold text-lg sm:text-xl rounded-lg py-3 shadow-md hover:shadow-lg w-full"
+    >
+      LOGIN
+    </button>
+  </form>
+</section>
 
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('template/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('template/js/sb-admin-2.min.js') }}"></script>
-</body>
+  </main>
+   <!-- Footer -->
+  <footer class="bg-[#c43c2f] text-white">
+   <div class="max-w-7xl mx-auto px-4 sm:px-10 py-6 flex flex-wrap justify-center sm:justify-between items-center gap-6">
+    <img alt="Logo semarangkota.go.id " class="h-12 w-auto" height="50" src="{{ asset('img/semarangkota.png') }}" width="100"/>
+    <img alt="Logo Semarang Smart City " class="h-12 w-auto" height="50" src="{{ asset('img/semarangsmartcity.png') }}" width="100"/>
+    <img alt="Logo Satu Data Kota Semarang " class="h-12 w-auto" height="50" src="{{ asset('img/satudatakotasemarang.png') }}" width="100"/>
+    <img alt="Logo PPID with text" class="h-12 w-auto" height="50" src="{{ asset('img/ppidkotasemarang.png') }}" width="100"/>
+    </div>
+   <div class="bg-black text-white text-xs sm:text-sm flex justify-between items-center px-4 sm:px-10 py-2">
+    <span>
+     © 2025 KELURAHAN PETERONGAN All rights reserved
+    </span>
+    <div class="flex items-center gap-4">
+     <a class="flex items-center gap-1 hover:underline" href="#">
+      <i class="fas fa-rss">
+      </i>
+      Legal notices
+     </a>
+     <a class="hover:underline" href="#">
+      Sitemap
+     </a>
+     <a class="hover:underline" href="#">
+      Sumber Daya Manusia
+     </a>
+    </div>
+   </div>
+  </footer>
+ </body>
 </html>

@@ -229,9 +229,15 @@
                                             Tidak Ada Gambar
                                         @endif
                                         </td>
-                                        <td> 
-                                            <a href=""> Hapus data </a>
-                                        </td>
+                                        <td>
+                                            <form action="{{ route('warga.destroy', $s->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus warga ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" style="background: none; border: none; padding: 0;">
+                                                    <img src="{{ asset('img/hapus.png') }}" alt="delete" height="59" width="50">
+                                                </button>
+                                            </form>
+                                        </td>                                        
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -47,7 +47,7 @@
        </a>
       </li>
       <li>
-       <a class="hover:underline" href="/warga/aspirasi">
+       <a class="hover:underline" href="#">
         Daftar Aspirasi
        </a>
       </li>
@@ -61,9 +61,9 @@
     <div class="relative group mt-2 sm:mt-0">
         <button aria-expanded="false" aria-haspopup="true" class="bg-[#c63c28] text-white text-xs sm:text-sm px-3 py-2 rounded flex items-center gap-2 group-hover:bg-[#b03522] transition-colors">
             @if($warga->gambar)
-                <img src="{{ asset('storage/' . $warga->gambar) }}" width="50" height="50" alt="Gambar Warga">
+            <img src="{{ asset('storage/' . $warga->gambar) }}" width="50" height="50" alt="Gambar Warga">
             @else
-                <img alt="User profile icon silhouette" class="rounded" height="30" src="https://storage.googleapis.com/a1aa/image/595d2951-227e-4511-2701-9dee643af4c9.jpg" width="30"/>
+                    Tidak Ada Gambar
             @endif            
             <div class="text-left leading-tight">
                 <div class="text-[10px] sm:text-xs">
@@ -96,57 +96,54 @@
   <div class="bg-[#c63c28] h-1">
   </div>
   <!-- Main content -->
-  <main class="max-w-7xl mx-auto px-4 py-6">
-   <h1 class="inline-block bg-[#c63c28] text-white font-bold text-lg sm:text-xl px-5 py-2 rounded select-none">
-    DASHBOARD USER
-   </h1>
-   <main class="px-4 py-6 max-w-7xl mx-auto">
-    <div class="flex flex-col lg:flex-row lg:space-x-10">
-     <!-- Left text block -->
-     <div class="flex-1 mb-6 lg:mb-0">
-      <h1 class="inline-block bg-[#c43c2f] text-white font-extrabold text-2xl px-4 py-2 mb-3" style="font-size: 38px;">
-       ASPIRASI ANDA
-      </h1>
-      <h2 class="font-semibold text-xl mb-3" style="font-size: 35px;">
-       SANGAT BERHARGA
-      </h2>
-      <h3 class="text-[#c43c2f] font-semibold text-lg mb-4" style="font-size: 33px;">
-       UNTUK KAMI
-      </h3>
-      <p class="text-base mb-4 leading-relaxed" style="font-size: 27px;">
-       Pada Fitur Aspirasi ini Berfungsi sebagai wadah bagi masyarakat untuk menyampaikan aspirasi di Kelurahan Peterongan.
-      </p>
-      <p class="text-base leading-relaxed" style="font-size: 27px; font-family: Open Sans;">
-       Melalui Aspirasi ini, Kami berkomitmen untuk mengembangkan dan meningkatkan layanan dari masukan dan aspirasi Anda.
-      </p>
-      <div class="border-t-4 border-[#c43c2f] mt-6">
-      </div>
-      <div class="flex justify-between mt-6">
-        <a href="/warga/aspirasi">
-            <button class="bg-[#eecb00] text-[#c43c2f] font-semibold px-5 py-2 rounded shadow-md hover:shadow-lg transition-shadow" style="font-size: 20px;" type="button">
-                Daftar Aspirasi
-               </button>
-        </a>
-       <a href="/warga/aspirasi/create">
-        <button class="bg-[#eecb00] text-[#c43c2f] font-semibold px-5 py-2 rounded shadow-md hover:shadow-lg transition-shadow" style="font-size: 20px;" type="button">
-            Kirim Aspirasi
-           </button>
-        </a>
-      </div>
-     </div>
-     <!-- Right block -->
-     <div class="flex-1 max-w-sm">
-      <div class="mb-2 inline-block bg-[#c43c2f] text-white text-sm px-3 py-1 rounded" style="font-size: 20px;">
-       Sampaikan Aspirasi Melalui:
-      </div>
-      <div class="mb-4 inline-block bg-[#eecb00] text-[#c43c2f] font-bold px-3 py-2 rounded text-sm" style="font-size: 20px;">
-       PETEROGAN.SEMARANGKOTA.GO.ID/ASPIRASI
-      </div>
-      <img alt="Illustration of two people with laptops and icons around a globe representing communication and aspiration" class="w-full h-auto" height="250" src="{{ asset('img/admin.png') }}" width="300"/>
-     </div>
-    </div>
+  <main class="max-w-7xl mx-auto px-4 sm:px-10 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Left form -->
+    <form action="{{ route('aspirasi.store') }}" method="POST" enctype="multipart/form-data" class="lg:col-span-7 space-y-4 text-xs sm:text-sm">
+        @csrf
+    
+        <div class="flex items-center gap-3">
+            <label class="w-20 font-extrabold text-xs" for="telpon">Telepon</label>
+            <input class="border border-[#c43c2f] rounded px-2 py-1 w-full placeholder:text-[#999999] focus:outline-none focus:ring-1 focus:ring-[#c43c2f]" id="telpon" name="telpon" placeholder="Isi dengan nomor telepon" value="{{ old('telpon') }}" required>
+        </div>
+    
+        <div class="flex items-center gap-1">
+            <label class="w-20 font-extrabold text-xs">RT/RW</label>
+            <input class="border border-[#c43c2f] rounded px-3 py-1 w-14 placeholder:text-[#999999] focus:outline-none focus:ring-1 focus:ring-[#c43c2f]" name="rt" placeholder="RT" value="{{ old('rt') }}" required>
+            <input class="border border-[#c43c2f] rounded px-3 py-1 w-14 placeholder:text-[#999999] focus:outline-none focus:ring-1 focus:ring-[#c43c2f]" name="rw" placeholder="RW" value="{{ old('rw') }}" required>
+        </div>
+    
+        <div class="flex items-center gap-3">
+            <label class="w-20 font-extrabold text-xs" for="kategori">Kategori</label>
+            <select name="kategori" required class="border border-[#c43c2f] rounded px-2 py-1 w-full focus:outline-none focus:ring-1 focus:ring-[#c43c2f]">
+                <option value="">-- Pilih Kategori --</option>
+                <option value="Perekonomian dan Kesejahteraan Sosial" {{ old('kategori') == 'Perekonomian dan Kesejahteraan Sosial' ? 'selected' : '' }}>Perekonomian dan Kesejahteraan Sosial</option>
+                <option value="Pembangunan" {{ old('kategori') == 'Pembangunan' ? 'selected' : '' }}>Pembangunan</option>
+                <option value="Ketenteraman dan Ketertiban Umum" {{ old('kategori') == 'Ketenteraman dan Ketertiban Umum' ? 'selected' : '' }}>Ketenteraman dan Ketertiban Umum</option>
+            </select>
+        </div>
+    
+        <div class="flex items-start gap-3">
+            <label class="w-20 font-extrabold text-xs pt-1" for="isi">Isi</label>
+            <textarea class="border border-[#c43c2f] rounded px-2 py-1 w-full placeholder:text-[#999999] focus:outline-none focus:ring-1 focus:ring-[#c43c2f]" id="isi" name="isi" rows="6" required>{{ old('isi') }}</textarea>
+        </div>
+    
+        <div class="flex items-center gap-3">
+            <label class="w-20 font-extrabold text-xs" for="gambar">Lampiran</label>
+            <input accept=".jpg,.jpeg,.png" class="border border-[#c43c2f] rounded px-2 py-1 text-xs w-full sm:w-96" id="gambar" name="gambar" type="file">
+        </div>
+    
+        <p class="text-xs text-gray-600">*) Format .jpg, .jpeg, .png | Ukuran Maksimal 2MB</p>
+    
+        <button class="bg-yellow-400 text-[#c43c2f] font-extrabold text-sm px-4 py-2 rounded" type="submit">Kirim Aspirasi</button>
+    </form>    
+    <!-- Right side content -->
+    <aside class="lg:col-span-5 flex flex-col items-center gap-4">
+     <h2 class="bg-[#c43c2f] text-white font-extrabold text-xl sm:text-2xl px-6 py-2 rounded select-none" style="font-family: open sans">
+      ASPIRASI ANDA
+     </h2>
+     <img alt="Gambar Tambahan" class="rounded-sm" height="250" src="{{ asset('img/admin.png') }}" width="300"/>
+    </aside>
    </main>
-  </main>
   <!-- Footer with logos -->
   <footer class="bg-[#c43c2f] text-white">
    <div class="max-w-7xl mx-auto px-4 sm:px-10 py-6 flex flex-wrap justify-center sm:justify-between items-center gap-6">
@@ -196,4 +193,27 @@
                     Logout
                 </button>
 
+-->
+
+
+<!-- 
+<form action="{{ route('aspirasi.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+        @csrf
+      
+        <input name="telpon" value="{{ old('telpon') }}" placeholder="Nomor Telepon" required class="rounded-md px-4 py-2 border">
+        <input name="rt" value="{{ old('rt') }}" placeholder="RT" required class="rounded-md px-4 py-2 border">
+        <input name="rw" value="{{ old('rw') }}" placeholder="RW" required class="rounded-md px-4 py-2 border">
+    
+        <select name="kategori" required class="rounded-md px-4 py-2 border">
+            <option value="">-- Pilih Kategori --</option>
+            <option value="Perekonomian dan Kesejahteraan Sosial">Perekonomian dan Kesejahteraan Sosial</option>
+            <option value="Pembangunan">Pembangunan</option>
+            <option value="Ketenteraman dan Ketertiban Umum">Ketenteraman dan Ketertiban Umum</option>
+        </select>
+    
+        <textarea name="isi" placeholder="Isi Aspirasi" required class="rounded-md px-4 py-2 border">{{ old('isi') }}</textarea>
+        <input name="gambar" type="file" class="mt-2">
+    
+        <button type="submit" class="bg-blue-500 text-white rounded px-4 py-2">Kirim Aspirasi</button>
+    </form>
 -->
