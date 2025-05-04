@@ -201,7 +201,48 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <h1>SELAMAT DATANG DI DASHBOARD!</h1>
+                        <h1>DAFTAR WARGA </h1>
+
+                    </div>
+
+                    <div>
+                        <table border="1" cellpadding="10">
+                            <thead>
+                                <tr>
+                                    <th>NIK</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>gambar</th>
+                                    <th>aksi </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($show as $s)
+                                    <tr>
+                                        <td>{{ $s->nik }}</td>
+                                        <td>{{ $s->nama }}</td>
+                                        <td>{{ $s->email }}</td>
+                                        <td>
+                                        @if($s->gambar)
+                                            <img src="{{ asset('storage/' . $s->gambar) }}" width="80" height="80" alt="Gambar Warga">
+                                        @else
+                                            Tidak Ada Gambar
+                                        @endif
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('warga.destroy', $s->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus warga ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" style="background: none; border: none; padding: 0;">
+                                                    <img src="{{ asset('img/hapus.png') }}" alt="delete" height="59" width="50">
+                                                </button>
+                                            </form>
+                                        </td>                                        
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                       
                     <!-- Content Row -->
                 </div>
