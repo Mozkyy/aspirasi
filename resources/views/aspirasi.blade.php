@@ -70,6 +70,12 @@
                     <span>Daftar Petugas</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="/daftarwarga">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Daftar warga </span></a>
+            </li>
+
         </ul>
         <!-- End of Sidebar -->
 
@@ -193,11 +199,79 @@
                     
                     <!-- Content Row -->
                     <div class="row">
-
                         <h1>DAFTAR ASPIRASI</h1>
-                      
-                    <!-- Content Row -->
+                   </div>
+                    <!-- Content Row --> 
+                    <div>
+                        <table border="1" cellpadding="10">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>telepon</th>
+                                <th>RT</th>
+                                <th>RW</th>
+                                <th>Kategori</th>
+                                <th>Isi</th>
+                                <th>Lampiran</th>
+                                <th>status </th>
+                                <th>tanggal </th>
+                                <th>AKSI </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($show as $s)
+                            <tr>
+                                <td>{{ $s->warga->nama }}</td>
+                                <td>{{ $s->telpon }}</td>
+                                <td>{{ $s->rt }}</td>
+                                <td>{{ $s->rw }}</td>
+                                <td>{{ $s->kategori }}</td>
+                                <td>{{ $s->isi }}</td>
+                                <td>
+                                @if($s->gambar)
+                                    <img src="{{ asset('storage/' . $s->gambar) }}" width="80" height="80" alt="Lampiran">
+                                @else
+                                    Tidak Ada Gambar
+                                @endif
+                                </td>
+                                <td>{{ $s->status_proses }}</td>
+                                <td>{{ $s->created_at }}</td>
+                                <td>
+                                    <div style="display: flex; flex-direction: row; align-items: center; gap: 5px;">
+                                        <!-- terima status-->
+                                        <form action="{{ route('aspirasi.terima', $s->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menerima aspirasi ini?');">
+                                            @csrf
+                                            <button type="submit" style="background: none; border: none; padding: 0;">
+                                                <img src="{{ asset('img/terima.png') }}" alt="terima" height="40" width="40">
+                                            </button>
+                                        </form>
+
+                                        <!-- selesai -->
+                                        <form action="{{ route('aspirasi.selesai', $s->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menenyelesaikan aspirasi ini?');">
+                                            @csrf
+                                            <button type="submit" style="background: none; border: none; padding: 0;">
+                                                <img src="{{ asset('img/centang.png') }}" alt="selesai" height="40" width="40">
+                                            </button>
+                                        </form>
+
+                                        <!-- delete -->
+                                        <form action="{{ route('aspirasi.destroy', $s->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus aspirasi ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" style="background: none; border: none; padding: 0;">
+                                                <img src="{{ asset('img/hapus.png') }}" alt="delete" height="40" width="40">
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>      
+                            </tr>
+                        @endforeach
+                            </tbody>
+                </table>
+                    </div>
                 </div>
+                
                 <!-- /.container-fluid -->
 
             </div>

@@ -70,6 +70,12 @@
                     <span>Daftar Petugas</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="/daftarwarga">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Daftar warga </span></a>
+            </li>
+
         </ul>
         <!-- End of Sidebar -->
 
