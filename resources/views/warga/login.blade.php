@@ -67,7 +67,9 @@
   <form method="POST" action="{{ route('warga.login.submit') }}" class="flex flex-col gap-4">
     @csrf
     <input name="nik" value="{{ old('nik') }}" class="px-4 py-3 rounded-lg shadow-md border border-transparent focus:outline-none focus:ring-2 focus:ring-[#c43c2f] text-xs sm:text-sm" placeholder="Masukkan NIK Anda"
-      type="text"
+      type="text"   maxlength="16"
+      pattern="\d{16}"
+      inputmode="numeric"
     />
     @error('nik')
       <small class="text-red-500 text-xs">{{ $message }}</small>
